@@ -1,0 +1,39 @@
+﻿@model Web.Models.Users.UsersIndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="text-center">
+    <h1>LEADERBOARD</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    USERNAME
+                </th>
+                <th>
+                    NUMBER OF GAMES WON
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GamesWon)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
