@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    @await Html.PartialAsync("_Favicons")
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BULLS&amp;COWS</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BULLS&amp;COWS</a>
+                <div id="navbar_userdisplay"></div>
+            </div>
+
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - BULLS&amp;COWS
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @using Microsoft.AspNetCore.Http
+    @inject IHttpContextAccessor HttpContextAccessor
+
+    <script>
+        function getLoggedStatus() {
+             return '@HttpContextAccessor.HttpContext.Session.GetString("LoggedIn")';
+        }
+
+        if (getLoggedStatus() == "1") {
+            var username = document.cookie.split(";").filter(i => i.trim().includes("Username="))[0].split("=")[1].trim();
+
+            document.getElementById("navbar_userdisplay").innerHTML = username + "<a style=\"color:black\"><></a> <a style=\"color:black\" href=\"/Users\">LEADERBOARD</a> | <a style=\"color:black\"  href=\"/Home/Logout\">LOG OUT</a>";
+        }
+        else {
+            document.getElementById("navbar_userdisplay").innerHTML = "<a style=\"color:black\"><></a> <a style=\"color:black\" href=\"/Users\">LEADERBOARD</a> | <a style=\"color:black\" href=\"/Home\">LOG IN</a> | <a style=\"color:black\" href=\"/Home/Register\">REGISTER</a>";
+        }
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
